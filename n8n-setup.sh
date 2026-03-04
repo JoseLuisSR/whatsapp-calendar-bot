@@ -44,17 +44,11 @@ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 sudo docker compose version >/dev/null
 
 # ------------------------------------------------------------
-# Create n8n deployment directory
-# ------------------------------------------------------------
-log "Creating n8n directory..."
-sudo mkdir -p /opt/n8n
-cd /opt/n8n
-
-# ------------------------------------------------------------
 # Start n8n stack BEFORE configuring Nginx
 # (Avoid temporary 502s while Nginx is up but n8n isn't ready)
 # ------------------------------------------------------------
 log "Starting n8n stack..."
+cd /tmp/whatsapp-calendar-bot
 sudo docker compose up -d
 
 # ------------------------------------------------------------

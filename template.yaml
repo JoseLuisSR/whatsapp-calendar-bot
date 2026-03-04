@@ -67,10 +67,10 @@ Resources:
         # ------------------------------------------------------------------
         # Download whatsapp-calendar-bot setup script from GitHub and execute it
         # ------------------------------------------------------------------
-        curl -L https://raw.githubusercontent.com/JoseLuisSR/whatsapp-calendar-bot/develop/n8n-setup.sh -o /tmp/whatsapp-calendar-bot.zip
-        unzip /tmp/whatsapp-calendar-bot.zip -d /tmp/
-        chmod +x /tmp/n8n-setup.sh
-        /tmp/n8n-setup.sh
+        curl -L https://github.com/JoseLuisSR/whatsapp-calendar-bot/archive/refs/heads/develop.zip -o /tmp/whatsapp-calendar-bot.zip
+        unzip /tmp/whatsapp-calendar-bot.zip -d /tmp/whatsapp-calendar-bot
+        chmod +x /tmp/whatsapp-calendar-bot/n8n-setup.sh
+        /tmp/whatsapp-calendar-bot/n8n-setup.sh
         
         echo "[INFO] Bootstrap finished."
 
