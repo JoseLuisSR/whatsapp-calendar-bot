@@ -59,28 +59,7 @@ sudo dnf install -y nginx
 sudo systemctl enable nginx
 
 log "Creating Nginx reverse proxy configuration..."
-sudo tee /etc/nginx/conf.d/n8n.conf >/dev/null <<EOF
-server {
-listen 80;
-server_name ${DOMAIN};
-
-location / {
-proxy_pass http://127.0.0.1:5678;
-
-proxy_http_version 1.1;
-proxy_set_header Upgrade \$http_upgrade;
-proxy_set_header Connection "upgrade";
-
-proxy_set_header Host \$host;
-proxy_set_header X-Real-IP \$remote_addr;
-proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-proxy_set_header X-Forwarded-Proto \$scheme;
-
-proxy_read_timeout 3600;
-proxy_send_timeout 3600;
-}
-}
-EOF
+sudo cp /tmp/whatsapp-calendar-bot-develop/nginx/n8n.conf /etc/nginx/conf.d/n8n.conf
 
 # Validate Nginx configuration and start/restart it
 sudo nginx -t
