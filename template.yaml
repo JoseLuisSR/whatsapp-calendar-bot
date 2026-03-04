@@ -4,7 +4,7 @@ Description: n8n on Lightsail (Amazon Linux 2023) + Nginx + Certbot (automated)
 Parameters:
   InstanceName:
     Type: String
-    Default: n8n-instance
+    Default: n8n-instance-2
   KeyPairName:
     Type: String
     Default: n8n-host-aws
@@ -51,19 +51,30 @@ Resources:
             ToPort: 22
             AccessFrom: 0.0.0/0
             AccessType: Public
+      UserData: |
+        #!/bin/bash
+        set -euo pipefail
+
+        echo "[INFO] Starting instance bootstrap..."
+        
+        # ------------------------------------------------------------------
+        # Update the system and install necessary packages
+        # ------------------------------------------------------------------
+        sudo dnf update -y
+
+        echo "[INFO] Downloading and executing setup script from GitHub..."
+        
+        # ------------------------------------------------------------------
+        # Download and execute the n8n setup script
+        # ------------------------------------------------------------------
+        curl -fsSL https://raw.githubusercontent.com/JoseLuisSR/whatsapp-calendar-bot/develop/n8n-setup.sh -o /tmp/n8n-setup.sh
+        chmod +x /tmp/n8n-setup.sh
+        /tmp/n8n-setup.sh
+        
+        echo "[INFO] Bootstrap finished."
 
   StaticIp:
     Type: AWS::Lightsail::StaticIp
     Properties:
       StaticIpName: n8n-static-ip-address
       AttachedTo: !Ref Instance
-      
-  Domain:
-    Type: AWS::Lightsail::Domain
-    Properties:
-      DomainName: joseluissr.com
-      DomainEntries:
-        - Name: n8n.joseluissr.com
-          Target: !GetAtt StaticIp.IpAddress
-          Type: A
-  
