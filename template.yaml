@@ -63,11 +63,12 @@ Resources:
         sudo dnf update -y
 
         echo "[INFO] Downloading and executing setup script from GitHub..."
-        
+
         # ------------------------------------------------------------------
-        # Download and execute the n8n setup script
+        # Download whatsapp-calendar-bot setup script from GitHub and execute it
         # ------------------------------------------------------------------
-        curl -fsSL https://raw.githubusercontent.com/JoseLuisSR/whatsapp-calendar-bot/develop/n8n-setup.sh -o /tmp/n8n-setup.sh
+        curl -L https://raw.githubusercontent.com/JoseLuisSR/whatsapp-calendar-bot/develop/n8n-setup.sh -o /tmp/whatsapp-calendar-bot.zip
+        unzip /tmp/whatsapp-calendar-bot.zip -d /tmp/
         chmod +x /tmp/n8n-setup.sh
         /tmp/n8n-setup.sh
         
