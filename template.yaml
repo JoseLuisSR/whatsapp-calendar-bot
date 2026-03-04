@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: n8n on Lightsail (Amazon Linux 2023) + Nginx + Certbot (automated)
+
+Parameters:
+  InstanceName:
+    Type: String
+    Default: n8n-instance
+  KeyPairName:
+    Type: String
+    Default: n8n-host-aws
+  AvailabilityZone:
+    Type: String
+    Default: us-east-1a
+  BlueprintId:
+    Type: String
+    Default: amazon_linux_2023
+  BundleId:
+    Type: String
+    Default: small_3_0
+
+Resources:
+  Instance:
+    Type: AWS::Lightsail::Instance
+    Properties:
+      InstanceName: !Ref InstanceName
+      BlueprintId: !Ref BlueprintId
+      BundleId: !Ref BundleId
+      KeyPairName: !Ref KeyPairName
+      Location:
+        AvailabilityZone: !Ref AvailabilityZone
+      Networking:
+        Ports:
+          - AccessDirection: inbound
+            CommonName: HTTPS
+            Protocol: tcp
+            FromPort: 443
+            ToPort: 443
+            AccessFrom: 0.0.0/0
+            AccessType: Public
+          - AccessDirection: inbound
+            CommonName: HTTP
+            Protocol: tcp
+            FromPort: 80
+            ToPort: 80
+            AccessFrom: 0.0.0/0
+            AccessType: Public
+          - AccessDirection: inbound
+            CommonName: SSH
+            Protocol: tcp
+            FromPort: 22
+            ToPort: 22
+            AccessFrom: 0.0.0/0
+            AccessType: Public
+
+  StaticIp:
+    Type: AWS::Lightsail::StaticIp
+    Properties:
+      StaticIpName: n8n-static-ip-address
+      AttachedTo: !Ref Instance
+      
+  Domain:
+    Type: AWS::Lightsail::Domain
+    Properties:
+      DomainName: joseluissr.com
+      DomainEntries:
+        - Name: n8n.joseluissr.com
+          Target: !GetAtt StaticIp.IpAddress
+          Type: A
+  
