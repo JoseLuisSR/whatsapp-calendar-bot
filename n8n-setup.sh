@@ -48,7 +48,7 @@ sudo docker compose version >/dev/null
 # (Avoid temporary 502s while Nginx is up but n8n isn't ready)
 # ------------------------------------------------------------
 log "Starting n8n stack..."
-cd /tmp/whatsapp-calendar-bot
+cd /tmp/whatsapp-calendar-bot-develop
 sudo docker compose up -d
 
 # ------------------------------------------------------------
