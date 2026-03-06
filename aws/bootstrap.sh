@@ -49,12 +49,10 @@ sudo docker compose version >/dev/null
 # (Avoid temporary 502s while Nginx is up but n8n isn't ready)
 # ------------------------------------------------------------
 log "Starting n8n stack..."
-cd /tmp/whatsapp-calendar-bot-develop/docker
-
 log "Injecting DOMAIN=${DOMAIN} into .env..."
-sed -i "s/^DOMAIN=.*/DOMAIN=${DOMAIN}/" .env
+sed -i "s/^DOMAIN=.*/DOMAIN=${DOMAIN}/" /tmp/whatsapp-calendar-bot-develop/docker/.env
 
-sudo docker compose up -d
+sudo docker compose -f /tmp/whatsapp-calendar-bot-develop/docker/docker-compose.yml up -d
 
 # ------------------------------------------------------------
 # Install and configure Nginx reverse proxy AFTER n8n is running
