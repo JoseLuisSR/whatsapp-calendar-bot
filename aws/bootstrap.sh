@@ -64,6 +64,8 @@ sudo dnf install -y nginx
 sudo systemctl enable nginx
 
 log "Creating Nginx reverse proxy configuration..."
+log "Injecting DOMAIN=${DOMAIN} into reverse-proxy.conf..."
+sed -i "s/server_name placeholder;/server_name ${DOMAIN};/" /tmp/whatsapp-calendar-bot-develop/nginx/reverse-proxy.conf
 sudo cp /tmp/whatsapp-calendar-bot-develop/nginx/reverse-proxy.conf /etc/nginx/conf.d/reverse-proxy.conf
 
 # Validate Nginx configuration and start/restart it

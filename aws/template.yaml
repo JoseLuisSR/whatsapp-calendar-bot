@@ -19,7 +19,7 @@ Parameters:
     Default: small_3_0
   Domain:
     Type: String
-    Default: n8n.yourdomain.com
+    Default: n8n.joseluissr.com
   Email:
     Type: String
     Default: jose.luis.sastoque.rey@gmail.com
