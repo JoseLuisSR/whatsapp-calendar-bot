@@ -5,10 +5,11 @@ log() { echo "[INFO] $*"; }
 die() { echo "[ERROR] $*" >&2; exit 1; }
 
 # ------------------------------------------------------------
-# Global configuration (single source of truth for the domain)
+# Global configuration – values injected via positional arguments
+# Usage: bootstrap.sh <domain> <email>
 # ------------------------------------------------------------
-DOMAIN="n8n.joseluissr.com"
-EMAIL="jose.luis.sastoque.rey@gmail.com"
+DOMAIN="${1:?Usage: bootstrap.sh <domain> <email>}"
+EMAIL="${2:?Usage: bootstrap.sh <domain> <email>}"
 
 # ------------------------------------------------------------
 # Update OS packages
@@ -49,6 +50,10 @@ sudo docker compose version >/dev/null
 # ------------------------------------------------------------
 log "Starting n8n stack..."
 cd /tmp/whatsapp-calendar-bot-develop/docker
+
+log "Injecting DOMAIN=${DOMAIN} into .env..."
+sed -i "s/^DOMAIN=.*/DOMAIN=${DOMAIN}/" .env
+
 sudo docker compose up -d
 
 # ------------------------------------------------------------
