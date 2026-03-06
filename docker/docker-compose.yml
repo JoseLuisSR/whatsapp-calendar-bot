@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: always
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_POSTGRES_DB}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  n8n:
+    # n8n workflow automation container
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      NODE_ENV: "production"
+
+      # Public host configuration (Nginx will proxy requests)
+      N8N_HOST: ${DOMAIN}
+      N8N_PROTOCOL: https
+      N8N_SECURE_COOKIE: true
+      N8N_TRUST_PROXY: true
+      N8N_PROXY_HOPS: 1
+      WEBHOOK_URL: https://${DOMAIN}
+
+      # Database connection settings
+      DB_TYPE: "postgresdb"
+      DB_POSTGRESDB_HOST: "postgres"
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: ${DB_POSTGRES_DB}
+      DB_POSTGRESDB_USER: ${DB_POSTGRES_USER}
+      DB_POSTGRESDB_PASSWORD: ${DB_POSTGRES_PASSWORD}
+    ports:
+      # Bind only to localhost for security (Nginx will proxy traffic)
+      - "127.0.0.1:5678:5678"
+    volumes:
+      - n8n-data:/home/node/.n8n
+
+volumes:
+  db-data:
+  n8n-data:
