@@ -4,25 +4,34 @@ Description: n8n on Lightsail (Amazon Linux 2023) + Nginx + Certbot (automated)
 Parameters:
   InstanceName:
     Type: String
-    Default: n8n-instance-2
+    Default: n8n-instance
+    Description: Name of the Lightsail instance
   KeyPairName:
     Type: String
     Default: n8n-host-aws
+    Description: Name of the existing Lightsail key pair to use for SSH access
   AvailabilityZone:
     Type: String
     Default: us-east-1a
+    Description: Availability zone for the instance (e.g., us-east-1a)
   BlueprintId:
     Type: String
+    Description: The blueprint ID for the instance (e.g., amazon_linux_2023)
     Default: amazon_linux_2023
   BundleId:
     Type: String
+    Description: The bundle ID for the instance (e.g., small_3_0)
     Default: small_3_0
+  StaticIpName:
+    Type: String
+    Description: Name of the static IP to be created and attached to the instance
+    Default: n8n-ip-address
   Domain:
     Type: String
-    Default: n8n.joseluissr.com
+    Description: The domain name to be used for n8n (e.g., example.com)
   Email:
     Type: String
-    Default: jose.luis.sastoque.rey@gmail.com
+    Description: The email address to be used for SSL certificate registration
 
 Resources:
   Instance:
@@ -83,5 +92,5 @@ Resources:
   StaticIp:
     Type: AWS::Lightsail::StaticIp
     Properties:
-      StaticIpName: n8n-static-ip-address
+      StaticIpName: !Ref StaticIpName
       AttachedTo: !Ref Instance
