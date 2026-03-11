@@ -82,6 +82,7 @@ Resources:
         # ------------------------------------------------------------------
         # Download whatsapp-calendar-bot setup script from GitHub and execute it
         # ------------------------------------------------------------------
+        mkdir -p /opt/n8n
         curl -L https://github.com/JoseLuisSR/whatsapp-calendar-bot/archive/refs/heads/develop.zip -o /opt/n8n/whatsapp-calendar-bot.zip
         unzip /opt/n8n/whatsapp-calendar-bot.zip -d /opt/n8n/
         chmod +x /opt/n8n/whatsapp-calendar-bot-develop/aws/bootstrap.sh
