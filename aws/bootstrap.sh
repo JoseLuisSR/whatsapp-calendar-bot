@@ -8,8 +8,10 @@ die() { echo "[ERROR] $*" >&2; exit 1; }
 # Global configuration – values injected via positional arguments
 # Usage: bootstrap.sh <domain> <email>
 # ------------------------------------------------------------
-DOMAIN="${1:?Usage: bootstrap.sh <domain> <email>}"
-EMAIL="${2:?Usage: bootstrap.sh <domain> <email>}"
+DOMAIN="${1:?Usage: bootstrap.sh <domain> <email> <db_user> <db_password>}"
+EMAIL="${2:?Usage: bootstrap.sh <domain> <email> <db_user> <db_password>}"
+DBUser="${3:?Usage: bootstrap.sh <domain> <email> <db_user> <db_password>}"
+DBPassword="${4:?Usage: bootstrap.sh <domain> <email> <db_user> <db_password>}"
 
 # ------------------------------------------------------------
 # Update OS packages
@@ -51,6 +53,10 @@ sudo docker compose version >/dev/null
 log "Starting n8n stack..."
 log "Injecting DOMAIN=${DOMAIN} into .env..."
 sed -i "s/^DOMAIN=.*/DOMAIN=${DOMAIN}/" /opt/n8n/whatsapp-calendar-bot-develop/docker/.env
+log "Injecting DB_POSTGRES_USER=${DBUser} into .env..."
+sed -i "s/^DB_POSTGRES_USER=.*/DB_POSTGRES_USER=${DBUser}/" /opt/n8n/whatsapp-calendar-bot-develop/docker/.env
+log "Injecting DB_POSTGRES_PASSWORD=${DBPassword} into .env..."
+sed -i "s/^DB_POSTGRES_PASSWORD=.*/DB_POSTGRES_PASSWORD=${DBPassword}/" /opt/n8n/whatsapp-calendar-bot-develop/docker/.env
 
 sudo docker compose -f /opt/n8n/whatsapp-calendar-bot-develop/docker/docker-compose.yml up -d
 

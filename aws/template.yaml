@@ -26,6 +26,15 @@ Parameters:
     Type: String
     Description: Name of the static IP to be created and attached to the instance
     Default: n8n-ip-address
+  DBUser:
+    Type: String
+    Description: PostgreSQL database username
+    Default: admin
+  DBPassword:
+    Type: String
+    Description: PostgreSQL database password
+    NoEcho: true
+    Default: admin
   Domain:
     Type: String
     Description: The domain name to be used for n8n (e.g., example.com)
@@ -86,7 +95,7 @@ Resources:
         curl -L https://github.com/JoseLuisSR/whatsapp-calendar-bot/archive/refs/heads/develop.zip -o /opt/n8n/whatsapp-calendar-bot.zip
         unzip /opt/n8n/whatsapp-calendar-bot.zip -d /opt/n8n/
         chmod +x /opt/n8n/whatsapp-calendar-bot-develop/aws/bootstrap.sh
-        /opt/n8n/whatsapp-calendar-bot-develop/aws/bootstrap.sh ${Domain} ${Email}
+        /opt/n8n/whatsapp-calendar-bot-develop/aws/bootstrap.sh ${Domain} ${Email} ${DBUser} ${DBPassword}
         
         echo "[INFO] Bootstrap finished."
 
