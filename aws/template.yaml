@@ -6,10 +6,6 @@ Parameters:
     Type: String
     Default: n8n-instance
     Description: Name of the Lightsail instance
-  KeyPairName:
-    Type: String
-    Default: n8n-host-aws
-    Description: Name of the existing Lightsail key pair to use for SSH access
   AvailabilityZone:
     Type: String
     Default: us-east-1a
@@ -49,7 +45,6 @@ Resources:
       InstanceName: !Ref InstanceName
       BlueprintId: !Ref BlueprintId
       BundleId: !Ref BundleId
-      KeyPairName: !Ref KeyPairName
       Location:
         AvailabilityZone: !Ref AvailabilityZone
       Networking:
