@@ -1,0 +1,384 @@
+{
+  "name": "WhatsApp Chat Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -328
+      ],
+      "id": "e865072a-4e4a-4f87-ac4e-e926b13e8b56",
+      "name": "BotWhatsApp",
+      "webhookId": "d33c3495-25dc-4c04-9230-4bce9c87e179",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "xspdz4cpaUkVwFS5",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5f2c9a39-2297-4e9f-943f-6138d5b29e54",
+              "leftValue": "={{ $('BotWhatsApp').item.json.messages[0].audio }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a53a1cb2-6aa8-4809-8e64-52e0e1eacff4",
+              "leftValue": "={{ $('BotWhatsApp').item.json.messages[0].text.body }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        -328
+      ],
+      "id": "83a1f2c8-6fee-4971-98bb-9fe1ee711f2b",
+      "name": "isVoiceMsg"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('BotWhatsApp').item.json.messages[0].audio.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        672,
+        -400
+      ],
+      "id": "15381e44-3d50-4484-85a7-01ef47dc9d8d",
+      "name": "getAudio"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        896,
+        -400
+      ],
+      "id": "6c841374-14af-449f-80b7-060a073634e7",
+      "name": "transcribeAudio",
+      "credentials": {
+        "openAiApi": {
+          "id": "Ekwp72iTirAnDgJg",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "mediaUrlGet",
+        "mediaGetId": "={{ $json.messages[0].audio.id }}"
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        -400
+      ],
+      "id": "6c8e8c04-a655-4e42-9652-c3f60f36ee01",
+      "name": "Download media",
+      "webhookId": "fe4e6d9a-2544-4c5e-a1a3-d4d5879baa27",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "0cdFFP8cVyTuCTgc",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Get text or voice msg",
+        "height": 352,
+        "width": 432,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -56,
+        -520
+      ],
+      "typeVersion": 1,
+      "id": "d06713da-342d-46bf-b8f3-67317e25aee4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Download voice msg",
+        "height": 336,
+        "width": 624,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        400,
+        -512
+      ],
+      "typeVersion": 1,
+      "id": "e84bd15f-3de7-4bbb-abd5-ca3bd24cf20d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Execute OpenAI LLM & send message",
+        "height": 528,
+        "width": 768
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1056,
+        -512
+      ],
+      "typeVersion": 1,
+      "id": "b054927e-dabd-4edd-af89-01e4653a6a8e",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1416,
+        -104
+      ],
+      "id": "6286d2d7-6c16-4eee-a463-edbbbbbd1f9b",
+      "name": "OpenAI LLM",
+      "credentials": {
+        "openAiApi": {
+          "id": "Ekwp72iTirAnDgJg",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "958838150649721",
+        "recipientPhoneNumber": "={{ $('BotWhatsApp').item.json.messages[0].from }}",
+        "textBody": "={{ $('AI Agent').item.json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1696,
+        -328
+      ],
+      "id": "f0876b56-ad5e-4f52-9e04-6ff93a3f44bb",
+      "name": "sendMsg",
+      "webhookId": "31a89828-f1cb-4f16-b6be-a236c62e0ad7",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "0cdFFP8cVyTuCTgc",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f3aeea63-076c-46a6-be23-99819f0b66ee",
+              "name": "text",
+              "value": "={{ $('BotWhatsApp').item.json.messages[0].text?.values() ?? $('transcribeAudio').item.json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        -328
+      ],
+      "id": "4dd25a75-cc24-4bea-89d0-cadd842bda0a",
+      "name": "setMsgText"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('setMsgText').item.json.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1344,
+        -328
+      ],
+      "id": "ace08911-98f4-4dd6-b6e9-e8f6f9682f0d",
+      "name": "AI Agent",
+      "executeOnce": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "BotWhatsApp": {
+      "main": [
+        [
+          {
+            "node": "isVoiceMsg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "isVoiceMsg": {
+      "main": [
+        [
+          {
+            "node": "Download media",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "setMsgText",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getAudio": {
+      "main": [
+        [
+          {
+            "node": "transcribeAudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "transcribeAudio": {
+      "main": [
+        [
+          {
+            "node": "setMsgText",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download media": {
+      "main": [
+        [
+          {
+            "node": "getAudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI LLM": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "setMsgText": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "sendMsg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "4db14b45-592d-4398-95bb-ac15bdfad9e2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5210948c2bace0777dc5b0553a5a32a945ace5f98065bdd6cf08b2157027bfa4"
+  },
+  "id": "xlIVJfYYXZoMxQYn",
+  "tags": []
+}
