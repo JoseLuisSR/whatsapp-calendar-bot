@@ -52,13 +52,13 @@ sudo docker compose version >/dev/null
 # ------------------------------------------------------------
 log "Starting n8n stack..."
 log "Injecting DOMAIN=${DOMAIN} into .env..."
-sed -i "s/^DOMAIN=.*/DOMAIN=${DOMAIN}/" /opt/n8n/whatsapp-calendar-bot-develop/docker/.env
+sed -i "s/^DOMAIN=.*/DOMAIN=${DOMAIN}/" /opt/n8n/whatsapp-chatbot-develop/docker/.env
 log "Injecting DB_POSTGRES_USER=${DBUser} into .env..."
-sed -i "s/^DB_POSTGRES_USER=.*/DB_POSTGRES_USER=${DBUser}/" /opt/n8n/whatsapp-calendar-bot-develop/docker/.env
+sed -i "s/^DB_POSTGRES_USER=.*/DB_POSTGRES_USER=${DBUser}/" /opt/n8n/whatsapp-chatbot-develop/docker/.env
 log "Injecting DB_POSTGRES_PASSWORD=${DBPassword} into .env..."
-sed -i "s/^DB_POSTGRES_PASSWORD=.*/DB_POSTGRES_PASSWORD=${DBPassword}/" /opt/n8n/whatsapp-calendar-bot-develop/docker/.env
+sed -i "s/^DB_POSTGRES_PASSWORD=.*/DB_POSTGRES_PASSWORD=${DBPassword}/" /opt/n8n/whatsapp-chatbot-develop/docker/.env
 
-sudo docker compose -f /opt/n8n/whatsapp-calendar-bot-develop/docker/docker-compose.yml up -d
+sudo docker compose -f /opt/n8n/whatsapp-chatbot-develop/docker/docker-compose.yml up -d
 
 # ------------------------------------------------------------
 # Install and configure Nginx reverse proxy AFTER n8n is running
@@ -69,8 +69,8 @@ sudo systemctl enable nginx
 
 log "Creating Nginx reverse proxy configuration..."
 log "Injecting DOMAIN=${DOMAIN} into reverse-proxy.conf..."
-sed -i "s/server_name placeholder;/server_name ${DOMAIN};/" /opt/n8n/whatsapp-calendar-bot-develop/nginx/reverse-proxy.conf
-sudo cp /opt/n8n/whatsapp-calendar-bot-develop/nginx/reverse-proxy.conf /etc/nginx/conf.d/reverse-proxy.conf
+sed -i "s/server_name placeholder;/server_name ${DOMAIN};/" /opt/n8n/whatsapp-chatbot-develop/nginx/reverse-proxy.conf
+sudo cp /opt/n8n/whatsapp-chatbot-develop/nginx/reverse-proxy.conf /etc/nginx/conf.d/reverse-proxy.conf
 
 # Validate Nginx configuration and start/restart it
 sudo nginx -t
