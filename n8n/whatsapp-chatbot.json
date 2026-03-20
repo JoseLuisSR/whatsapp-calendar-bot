@@ -14,12 +14,12 @@
         64,
         192
       ],
-      "id": "ae848c65-d0c4-43b5-8a92-a71140fef595",
+      "id": "d7206316-3f20-49cd-9fed-c6989bcd63e0",
       "name": "BotWhatsApp",
       "webhookId": "d33c3495-25dc-4c04-9230-4bce9c87e179",
       "credentials": {
         "whatsAppTriggerApi": {
-          "id": "wlcxT7b2pOjpnawY",
+          "id": "JjVKlnCozOXMUQVI",
           "name": "WhatsApp OAuth account"
         }
       }
@@ -65,7 +65,7 @@
         288,
         192
       ],
-      "id": "8b0d4f3c-23c9-4234-ac5b-e3b2471698c5",
+      "id": "f05cca02-7b97-44af-99d1-2963b6af9967",
       "name": "isVoiceMsg"
     },
     {
@@ -81,11 +81,11 @@
         736,
         128
       ],
-      "id": "668ed37f-5e0f-4114-841e-8d6d90679a0c",
+      "id": "424346ba-522f-4352-a4cc-83ca2cf3a5c8",
       "name": "getAudio",
       "credentials": {
         "httpBearerAuth": {
-          "id": "lRyNIgq430Xk8iap",
+          "id": "ACbsQzJBrhWtKgtr",
           "name": "Bearer Auth account"
         }
       }
@@ -102,11 +102,11 @@
         960,
         128
       ],
-      "id": "226e36b9-21f0-462c-8a16-4e1f108a220a",
+      "id": "22a2db1e-ec08-40c6-af53-c5c3ea788cc9",
       "name": "transcribeAudio",
       "credentials": {
         "openAiApi": {
-          "id": "pLRix58dSYYLREqK",
+          "id": "RMkfAgf4lLounxG0",
           "name": "OpenAi account"
         }
       }
@@ -123,12 +123,12 @@
         512,
         128
       ],
-      "id": "1a13426b-95dc-4f37-bc77-fcf196139d4e",
+      "id": "24d5b316-eaf2-49e2-b707-5aa52c9a3060",
       "name": "Download media",
       "webhookId": "fe4e6d9a-2544-4c5e-a1a3-d4d5879baa27",
       "credentials": {
         "whatsAppApi": {
-          "id": "plcOU3ZcNS8Nifbn",
+          "id": "xL1QWIon0x3QcDko",
           "name": "WhatsApp account"
         }
       }
@@ -146,7 +146,7 @@
         0
       ],
       "typeVersion": 1,
-      "id": "482de990-c1bd-4001-b62c-2119f0d37a7b",
+      "id": "fca4c911-33b0-40d1-8529-1ee137966d80",
       "name": "Sticky Note"
     },
     {
@@ -162,7 +162,7 @@
         16
       ],
       "typeVersion": 1,
-      "id": "ecb8ec90-2cdb-430f-95d8-15d9ce3ebdcf",
+      "id": "3144584b-9edc-4e33-8151-aeac55c7ab61",
       "name": "Sticky Note1"
     },
     {
@@ -177,7 +177,7 @@
         16
       ],
       "typeVersion": 1,
-      "id": "5ae9168e-7ba7-46fb-bcf1-a4f628123d1a",
+      "id": "5f1f0caa-3999-4d4e-9a2e-d3b62141994c",
       "name": "Sticky Note2"
     },
     {
@@ -196,11 +196,11 @@
         1472,
         416
       ],
-      "id": "03eeb0fe-d8b5-4d24-8cba-528ba4af7aa3",
+      "id": "cf2b5ebd-e31b-4b0e-92d4-a837e52f7561",
       "name": "OpenAI LLM",
       "credentials": {
         "openAiApi": {
-          "id": "pLRix58dSYYLREqK",
+          "id": "RMkfAgf4lLounxG0",
           "name": "OpenAi account"
         }
       }
@@ -208,7 +208,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "958838150649721",
+        "phoneNumberId": "={{ $('BotWhatsApp').item.json.metadata.phone_number_id }}",
         "recipientPhoneNumber": "={{ $('BotWhatsApp').item.json.messages[0].from }}",
         "textBody": "={{ $('AI Agent').item.json.output }}",
         "additionalFields": {}
@@ -219,12 +219,12 @@
         1760,
         192
       ],
-      "id": "7fad8a0f-c425-4b71-868a-3ecf95123b7c",
+      "id": "41cb30f4-83eb-4841-9c8e-306554e88f80",
       "name": "sendMsg",
       "webhookId": "31a89828-f1cb-4f16-b6be-a236c62e0ad7",
       "credentials": {
         "whatsAppApi": {
-          "id": "plcOU3ZcNS8Nifbn",
+          "id": "xL1QWIon0x3QcDko",
           "name": "WhatsApp account"
         }
       }
@@ -249,7 +249,7 @@
         1184,
         192
       ],
-      "id": "f53539b9-77a6-4d3b-b8b1-cce7ee8eeb42",
+      "id": "94f388ce-0d1c-4800-a6be-771d2ea9ac10",
       "name": "setMsgText"
     },
     {
@@ -264,11 +264,12 @@
         1408,
         192
       ],
-      "id": "65d4aeb7-ae26-4f8f-a0a2-0207ddf5292e",
+      "id": "52862e6c-9136-4bfd-a79e-93c98fcca1fd",
       "name": "AI Agent",
       "executeOnce": true
     }
   ],
+  "pinData": {},
   "connections": {
     "BotWhatsApp": {
       "main": [
@@ -366,9 +367,16 @@
       ]
     }
   },
-  "pinData": {},
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "26504a0a-8ad6-430c-b825-3c1212cb75fd",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "d94c416c24d618891bfdccdc529a1446572fcfb02746ce3d7d2626ffb6ee45c8"
-  }
+    "instanceId": "2efb5a126d7cfd69c7ad424a8a7475d5e9cb8194f63467956ec486a73f914836"
+  },
+  "id": "TjbDhZGvZwB4qO8J",
+  "tags": []
 }
